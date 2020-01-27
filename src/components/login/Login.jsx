@@ -19,7 +19,7 @@ import Axios from "axios"
 import { useHistory } from "react-router-dom"
 
 import { serverRoot, serverHeaders } from "../../config/index"
-import { Store } from '../../Store'
+import { Store } from "../../Store"
 // import { MAIN_COLOUR } from "../../constants"
 
 function Copyright() {
@@ -104,8 +104,6 @@ export default function Login() {
           })
           return history.push("/therapist")
         }
-
-        
       }
     } catch (err) {
       enqueueSnackbar(`Error`, {

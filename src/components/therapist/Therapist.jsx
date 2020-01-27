@@ -1,23 +1,38 @@
 import React, { useContext } from "react"
-import { Editor, EditorState, convertFromRaw } from "draft-js"
+import { makeStyles } from "@material-ui/core/styles"
+import { Paper, Grid, Card } from "@material-ui/core"
 
-import { Store } from '../../Store'
+import { Store } from "../../Store"
+import DailyCard from "../dailies/DailyCard"
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    padding: "20px"
+    // display: "flex",
+    // flexDirection: "column"
+    // alignItems: "center"
+  }
+}))
 
 export default function Therapist() {
-const { state } = useContext(Store)
+  const classes = useStyles()
+  const { state } = useContext(Store)
 
-const contentState = convertFromRaw(JSON.parse(state.therapist.dailies[3].entry))
-const editorState = EditorState.createWithContent(contentState)
+  const showDailyCards = () => {
+    // debugger
+    return state.therapist ? (
+      <Grid container spacing={2}>
+        {state.therapist.dailies.map((dailyEntry, index) => (
+          <Grid item xs={12} sm={6} key={index}>
+            <DailyCard daily={dailyEntry} />
+          </Grid>
+        ))}
+      </Grid>
+    ) : (
+      "no content"
+    )
+  }
 
-  return (
-    <div>
-      <Editor
-        editorState={editorState}
-        readOnly={true}
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editorClassName"
-      />
-    </div>
-  )
+  return <div>{showDailyCards()}</div>
 }
