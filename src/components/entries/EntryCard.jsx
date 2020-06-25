@@ -1,6 +1,5 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { useHistory } from "react-router-dom"
 import { Link } from "react-router-dom"
 
 import Card from "@material-ui/core/Card"
@@ -11,6 +10,10 @@ import CardMedia from "@material-ui/core/CardMedia"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 
+import { getDate } from "../../constants/index"
+import { showIcon } from "../../constants/Icons"
+
+
 const useStyles = makeStyles({
   card: {
     maxWidth: 345
@@ -20,13 +23,12 @@ const useStyles = makeStyles({
   }
 })
 
-export default function DailyCard({ daily }) {
-  const history = useHistory()
+export default function DailyCard({ entry }) {
   const classes = useStyles()
 
+  // debugger
   const handleClick = () => {
-    // debugger
-    // return history.push(`/daily/${entryId}`)
+    // return history.push(`/entry/${entryId}`)
   }
 
   return (
@@ -34,17 +36,18 @@ export default function DailyCard({ daily }) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          image="https://www.picsum.photos/300/200"
+          title="Entry Pic"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {getDate(entry.user_entry_datetime)}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a espread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {entry.user_content_title}
           </Typography>
+          {showIcon(entry)}
+
         </CardContent>
       </CardActionArea>
       <CardActions>
@@ -53,8 +56,8 @@ export default function DailyCard({ daily }) {
         </Button>
         <Link
           to={{
-            pathname: `/daily/${daily.id}`,
-            state: { daily }
+            pathname: `/test/${entry.id}`,
+            state: { entry }
           }}
         >
           <Button size="small" color="primary">

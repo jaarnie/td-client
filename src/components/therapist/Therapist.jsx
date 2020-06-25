@@ -1,38 +1,36 @@
 import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Paper, Grid, Card } from "@material-ui/core"
+import { Grid } from "@material-ui/core"
+import { useHistory } from "react-router-dom"
 
 import { Store } from "../../Store"
-import DailyCard from "../dailies/DailyCard"
+import EntryCard from "../entries/EntryCard"
 
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     padding: "20px"
-    // display: "flex",
-    // flexDirection: "column"
-    // alignItems: "center"
   }
 }))
 
 export default function Therapist() {
-  const classes = useStyles()
+  const history = useHistory()
   const { state } = useContext(Store)
 
-  const showDailyCards = () => {
+  const showEntryCards = () => {
     // debugger
     return state.therapist ? (
       <Grid container spacing={2}>
-        {state.therapist.dailies.map((dailyEntry, index) => (
+        {state.therapist.entries.map((entry, index) => (
           <Grid item xs={12} sm={6} key={index}>
-            <DailyCard daily={dailyEntry} />
+            <EntryCard entry={entry} />
           </Grid>
         ))}
       </Grid>
     ) : (
-      "no content"
+      history.push("/")
     )
   }
 
-  return <div>{showDailyCards()}</div>
+  return <div>{showEntryCards()}</div>
 }
