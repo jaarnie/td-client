@@ -7,6 +7,7 @@ const initialState = {
   therapist: null,
   dailies: [],
   setDailies: null,
+  datetime: null,
 }
 
 function reducer(state, action) {
@@ -22,6 +23,9 @@ function reducer(state, action) {
 
     case "SET_THERAPIST":
       return { ...state, therapist: action.payload }
+
+    case "SET_DATETIME":
+      return { ...state, datetime: action.payload }
 
     default:
       return { ...state }

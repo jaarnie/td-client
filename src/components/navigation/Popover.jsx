@@ -26,6 +26,7 @@ export default function NavigationPopover() {
   useEffect(() => {
       // validate admin user or therapist
     state.user && handleClose()
+    state.therapist && handleClose()
   })
 
   return (
