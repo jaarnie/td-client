@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 
-import Popover from '../navigation/Popover'
+import Popover from '../Popover/Popover'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +27,7 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Dailies
+            TD
           </Typography>
           <Popover />
         </Toolbar>

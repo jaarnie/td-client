@@ -20,6 +20,7 @@ import { useHistory } from 'react-router-dom'
 
 import { serverRoot, serverHeaders } from '../../config/index'
 import { Store } from '../../Store'
+import PasswordStrength from '../PasswordStrength/PasswordStrength'
 // import { MAIN_COLOUR } from "../../constants"
 
 function Copyright() {
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     // backgroundColor: MAIN_COLOUR
   },
+  checkbox: {
+    marginTop: 10,
+  },
 }))
 
 export default function Login({ handleClose }) {
@@ -72,68 +76,57 @@ export default function Login({ handleClose }) {
   })
 
   const [values, setValues] = useState({
+    firstName: '',
+    lastName: '',
     username: '',
     password: '',
+    confirmPassword: '',
   })
+  const [checked, setChecked] = useState(false)
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  const getUsers = async (endpoint) => {
-    const usersResponse = await axiosServer.get(`/${endpoint}`)
-    const arr = []
-    usersResponse.data.forEach((x) =>
-      arr.push({
-        id: x.id,
-        firstName: x.first_name,
-        lastName: x.last_name,
-      })
-    )
-    dispatch({
-      type: 'SET_ALL_USERS',
-      payload: arr,
-    })
+  const handleCheckboxChange = (event) => {
+    setChecked(event.target.checked)
   }
 
   const handleClick = async (event) => {
     event.preventDefault()
-    try {
-      const response = await axiosServer.post('/login', {
-        username: values.username,
-        password: values.password,
-      })
-      if (response.status === 200) {
-        enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
-          variant: 'success',
+    if (checked) {
+      console.log('therapist')
+      try {
+        const response = await axiosServer.post('/therapists', {
+          first_name: values.firstName,
+          last_name: values.lastName,
+          username: values.username,
+          password_digest: values.password,
+          is_therapist: checked,
         })
-        if (!response.data.is_therapist) {
-          getUsers('therapists')
-          dispatch({
-            type: 'SET_USER',
-            payload: response.data,
+        if (response.status === 201) {
+          enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
+            variant: 'success',
           })
-          return history.push('/home')
-        } else {
           dispatch({
             type: 'SET_THERAPIST',
             payload: response.data,
           })
           return history.push('/therapist')
         }
+      } catch (err) {
+        enqueueSnackbar(`Error`, {
+          variant: 'error',
+        })
       }
-    } catch (err) {
-      enqueueSnackbar(`Error`, {
-        variant: 'error',
-      })
     }
   }
 
-  const filledForm = () => {
-    return values.username && values.password !== '' ? false : true
+  const matchError = () => {
+    return values.password === values.confirmPassword ? false : true
   }
 
-  console.log(state)
+  console.log(state, values, checked)
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -142,9 +135,31 @@ export default function Login({ handleClose }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Login
+          Sign Up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate autoComplete='off'>
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            id='firstName'
+            label='First Name'
+            name='firstName'
+            autoFocus
+            onChange={handleChange}
+          />
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            id='lastName'
+            label='Last Name'
+            name='lastName'
+            autoFocus
+            onChange={handleChange}
+          />
           <TextField
             variant='outlined'
             margin='normal'
@@ -153,7 +168,6 @@ export default function Login({ handleClose }) {
             id='username'
             label='Username'
             name='username'
-            autoComplete='username'
             autoFocus
             onChange={handleChange}
           />
@@ -166,31 +180,53 @@ export default function Login({ handleClose }) {
             label='Password'
             type='password'
             id='password'
-            autoComplete='current-password'
             onChange={handleChange}
           />
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            name='confirmPassword'
+            label='Confirm Password'
+            type='password'
+            id='confirm-password'
+            onChange={handleChange}
+            error={matchError()}
+            helperText={matchError() === true ? "Entry doesn't match" : null}
           />
+          <PasswordStrength password={values.password} />
+          <div className={classes.checkbox}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleCheckboxChange}
+                  name='therapistCheck'
+                  color='primary'
+                />
+              }
+              label="Check here if you're a therapist"
+            />
+          </div>
           <Button
             type='submit'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
-            disabled={filledForm()}
             onClick={handleClick}
+            disabled={matchError()}
           >
-            Sign In
+            Sign Up
           </Button>
           <Grid container justify='center'>
             <Grid item xs>
               <Link to='/sign-up'>Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Link onClick={handleClose} to='/sign-up'>
-                Don't have an account? Sign Up
+              <Link onClick={handleClose} to='/login'>
+                Already have an account? Login
               </Link>
             </Grid>
           </Grid>

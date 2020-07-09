@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { Editor } from "react-draft-wysiwyg"
 import { makeStyles } from "@material-ui/core/styles"
@@ -8,8 +8,9 @@ import Axios from "axios"
 import { useSnackbar } from "notistack"
 
 import { serverHeaders, serverRoot } from "../../config/index"
-import Time from "./Time"
+import Time from '../Time/Time'
 import { happyIcon, neutralIcon, sadIcon } from "../../constants/Icons"
+import SelectUsers from '../SelectUsers/SelectUsers'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -19,6 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: theme.spacing(3, 0, 2)
+  },
+  editorClass: {
+    height: '40vh'
   }
 }))
 
@@ -32,7 +36,7 @@ export default function EntryEditor() {
   })
 
   const [selectedDate, setSelectedDate] = useState(new Date())
-
+  const [selectedUser, setSelectedUser] = useState('')
   const [state, setState] = useState({
     editorState: EditorState.createEmpty(),
     mood: null,
@@ -47,6 +51,10 @@ export default function EntryEditor() {
       editorState
     })
   }
+
+  const handleSelectChange = useCallback((event) => {
+    setSelectedUser(event.target.value)
+  }, [])
 
   const handleSave = async event => {
     // overwrite if exists
@@ -114,9 +122,9 @@ export default function EntryEditor() {
       <Paper className={classes.paper}>
         <Editor
           editorState={state.editorState}
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
+          toolbarClassName="editorToolbar"
+          wrapperClassName="editorWrapper"
+          editorClassName={classes.editorClass}
           onEditorStateChange={handleEditorChange}
         />
       </Paper>
@@ -127,6 +135,12 @@ export default function EntryEditor() {
           color="primary"
           onClick={handleSave}
         >
+        <SelectUsers 
+          handleSelectChange={handleSelectChange}
+          users={state.allUsers}
+          name={selectedUser.name}
+          value={selectedUser}
+        />
           Save
         </Button>
       </div>

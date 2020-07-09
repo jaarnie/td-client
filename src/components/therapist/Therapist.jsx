@@ -4,7 +4,7 @@ import { Grid } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
 
 import { Store } from "../../Store"
-import EntryCard from "../entries/EntryCard"
+import EntryCard from "../EntryCard/EntryCard"
 
 const useStyles = makeStyles(theme => ({
   paper: {
