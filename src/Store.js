@@ -16,11 +16,14 @@ function reducer(state, action) {
     case "SET_USER":
       return { ...state, user: action.payload }
 
-    case "GET_ENTRIES":
+    case "SET_ENTRIES":
       return { ...state, entries: action.payload }
 
-    case "SET_ENTRIES":
-      return { ...state, setEntries: action.payload }
+    // case "GET_ENTRIES":
+    //   return { ...state, entries: action.payload }
+
+    // case "SET_ENTRIES":
+    //   return { ...state, setEntries: action.payload }
 
     case "SET_THERAPIST":
       return { ...state, therapist: action.payload }

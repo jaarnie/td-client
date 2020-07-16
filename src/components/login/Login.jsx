@@ -113,6 +113,10 @@ export default function Login({ handleClose }) {
             type: 'SET_USER',
             payload: response.data,
           })
+          dispatch({
+            type: 'SET_ENTRIES',
+            payload: response.data.entries,
+          })
           return history.push('/home')
         } else {
           dispatch({

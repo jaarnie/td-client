@@ -19,7 +19,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/therapist" component={Therapist} />
           <Route path="/home" component={UserAdmin} />
-          <Route path="/test/:id" component={Entry} />
+          <Route path="/entry/:id" component={Entry} />
           <Route path="/sign-up" component={SignUp} />
           <Route path="/login" component={Login} />
           <Route component={NotFound} />

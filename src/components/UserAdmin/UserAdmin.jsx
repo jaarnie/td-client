@@ -111,7 +111,7 @@ export default function Home() {
           {/* <MapCards entries={state.entries}/> */}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {/* <MapCards deliveries={incomingDeliveries} /> */}
+          <MapCards entries={state.entries} />
         </TabPanel>
         <TabPanel value={value} index={2}>
         <EntryEditor />
