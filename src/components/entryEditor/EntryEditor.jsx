@@ -1,39 +1,46 @@
-import React, { useState } from "react"
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
-import { Editor } from "react-draft-wysiwyg"
-import { makeStyles } from "@material-ui/core/styles"
-import { EditorState, convertToRaw } from "draft-js"
-import { Button, Paper, Grid } from "@material-ui/core"
-import Axios from "axios"
-import { useSnackbar } from "notistack"
+import React, { useState, useCallback, useContext } from 'react'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { Editor } from 'react-draft-wysiwyg'
+import { makeStyles } from '@material-ui/core/styles'
+import { EditorState, convertToRaw } from 'draft-js'
+import { Button, Paper, Grid } from '@material-ui/core'
+import Axios from 'axios'
+import { useSnackbar } from 'notistack'
 
-import { serverHeaders, serverRoot } from "../../config/index"
-import Time from "./Time"
-import { happyIcon, neutralIcon, sadIcon } from "../../constants/Icons"
+import { Store } from '../../Store'
+import { serverHeaders, serverRoot } from '../../config/index'
+import Time from '../Time/Time'
+import { happyIcon, neutralIcon, sadIcon } from '../../constants/Icons'
+import SelectUsers from '../SelectUsers/SelectUsers'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
   button: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
+  editorClass: {
+    height: '40vh',
+  },
 }))
 
 export default function EntryEditor() {
   const classes = useStyles()
+  const { state } = useContext(Store)
+
   const { enqueueSnackbar } = useSnackbar()
 
   const axiosServer = Axios.create({
     baseURL: serverRoot,
-    headers: serverHeaders
+    headers: serverHeaders,
   })
 
   const [selectedDate, setSelectedDate] = useState(new Date())
-
-  const [state, setState] = useState({
+  const [selectedUser, setSelectedUser] = useState('')
+  const [localState, setLocalState] = useState({
     editorState: EditorState.createEmpty(),
     mood: null,
     happy_score: null,
@@ -42,24 +49,28 @@ export default function EntryEditor() {
     therapist_id: null,
   })
 
-  const handleEditorChange = editorState => {
-    setState({
-      editorState
+  const handleEditorChange = (editorState) => {
+    setLocalState({
+      editorState,
     })
   }
 
-  const handleSave = async event => {
+  const handleSelectChange = useCallback((event) => {
+    setSelectedUser(event.target.value)
+  }, [])
+
+  const handleSave = async (event) => {
     // overwrite if exists
     event.preventDefault()
-    const contentRaw = convertToRaw(state.editorState.getCurrentContent())
+    const contentRaw = convertToRaw(localState.editorState.getCurrentContent())
     // debugger
-    if (!state.mood) {
-      enqueueSnackbar("You must select a mood", {
-        variant: "error"
+    if (!localState.mood) {
+      enqueueSnackbar('You must select a mood', {
+        variant: 'error',
       })
     } else {
       try {
-        const response = await axiosServer.post("/entries", {
+        const response = await axiosServer.post('/entries', {
           content: JSON.stringify(contentRaw),
           // happy_score: 10, //admin
           // sad_score: 0, // admin
@@ -67,14 +78,13 @@ export default function EntryEditor() {
           therapist_id: 1, // pass down from admin
           user_id: 1,
           user_entry_datetime: selectedDate,
-          mood: state.mood,
-          content_title: null
+          mood: localState.mood,
+          content_title: null,
         })
         if (response.status === 201) {
-          enqueueSnackbar("Entry saved", {
-            variant: "success"
+          enqueueSnackbar('Entry saved', {
+            variant: 'success',
           })
-          
         }
       } catch (err) {
         console.log(err)
@@ -82,9 +92,9 @@ export default function EntryEditor() {
     }
   }
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     event.preventDefault()
-    setState({ ...state, mood: event.currentTarget.value })
+    setLocalState({ ...localState, mood: event.currentTarget.value })
   }
 
   const feelingsIcons = () => {
@@ -107,24 +117,30 @@ export default function EntryEditor() {
 
   return (
     <div>
-      {console.log(state)}
-      {console.log(state.mood)}
+      {console.log(localState)}
+      {console.log(localState.mood)}
       {feelingsIcons()}
       <Time selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       <Paper className={classes.paper}>
         <Editor
-          editorState={state.editorState}
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
+          editorState={localState.editorState}
+          toolbarClassName='editorToolbar'
+          wrapperClassName='editorWrapper'
+          editorClassName={classes.editorClass}
           onEditorStateChange={handleEditorChange}
         />
       </Paper>
-      <div style={{ textAlign: "center" }}>
+      <SelectUsers
+        handleSelectChange={handleSelectChange}
+        users={state.allUsers}
+        name={selectedUser.name}
+        value={selectedUser}
+      />
+      <div style={{ textAlign: 'center' }}>
         <Button
           className={classes.button}
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           onClick={handleSave}
         >
           Save

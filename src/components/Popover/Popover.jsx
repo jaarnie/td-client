@@ -4,7 +4,7 @@ import { AccountCircle } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
 
 import { Store } from "../../Store"
-import Login from "../login/Login"
+import Login from "../Login/Login"
 
 export default function NavigationPopover() {
   const history = useHistory()
@@ -21,7 +21,6 @@ export default function NavigationPopover() {
   }
 
   const open = Boolean(anchorEl)
-  const id = open && "sign-in-popover"
 
   useEffect(() => {
       // validate admin user or therapist
@@ -36,7 +35,7 @@ export default function NavigationPopover() {
       </IconButton>
 
       <Popover
-        id={id}
+        id={'sign-in-popover'}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -49,7 +48,7 @@ export default function NavigationPopover() {
           horizontal: "center"
         }}
       >
-        <Login />
+        <Login handleClose={handleClose}/>
       </Popover>
     </div>
   )

@@ -4,10 +4,11 @@ import { CssBaseline, Container } from "@material-ui/core"
 
 import Home from "./containers/Home"
 import NotFound from "./NotFound"
-import UserAdmin from './components/user/UserAdmin'
-import Therapist from "./components/therapist/Therapist"
-import Entry from './components/entries/Entry'
-import HiKat from './components/user/HiKat'
+import UserAdmin from './components/UserAdmin/UserAdmin'
+import Therapist from "./components/Therapist/Therapist"
+import Entry from './components/Entry/Entry'
+import SignUp from './components/SignUp/SignUp'
+import Login from './components/Login/Login'
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/therapist" component={Therapist} />
-          <Route path="/entry" component={UserAdmin} />
-          <Route path="/test/:id" component={Entry} />
-          <Route path="/kat" component={HiKat} />
+          <Route path="/home" component={UserAdmin} />
+          <Route path="/entry/:id" component={Entry} />
+          <Route path="/sign-up" component={SignUp} />
+          <Route path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
       </Container>

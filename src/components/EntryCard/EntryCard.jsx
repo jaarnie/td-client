@@ -51,16 +51,13 @@ export default function DailyCard({ entry }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
         <Link
           to={{
-            pathname: `/test/${entry.id}`,
+            pathname: `/entry/${entry.id}`,
             state: { entry }
           }}
         >
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" component="span">
             Read Entry
           </Button>
         </Link>
