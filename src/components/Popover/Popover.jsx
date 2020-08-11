@@ -1,17 +1,18 @@
-import React, { useEffect, useContext } from "react"
-import { Popover, IconButton } from "@material-ui/core"
-import { AccountCircle } from "@material-ui/icons"
-import { useHistory } from "react-router-dom"
+import React, { useContext } from 'react'
+import { Popover, IconButton } from '@material-ui/core'
+import { AccountCircle } from '@material-ui/icons'
+// import { useHistory } from 'react-router-dom'
 
-import { Store } from "../../Store"
-import Login from "../Login/Login"
+import { Store } from '../../Store'
+import Login from '../Login/Login'
+import Logout from '../Logout/Logout'
 
 export default function NavigationPopover() {
-  const history = useHistory()
+  // const history = useHistory()
   const { state } = useContext(Store)
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
     // return state.user && history.push("/profile")
   }
@@ -22,15 +23,9 @@ export default function NavigationPopover() {
 
   const open = Boolean(anchorEl)
 
-  useEffect(() => {
-      // validate admin user or therapist
-    state.user && handleClose()
-    state.therapist && handleClose()
-  })
-
   return (
     <div>
-      <IconButton style={{ color: "white" }} onClick={handleClick}>
+      <IconButton style={{ color: 'white' }} onClick={handleClick}>
         <AccountCircle />
       </IconButton>
 
@@ -40,15 +35,19 @@ export default function NavigationPopover() {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center"
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center"
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Login handleClose={handleClose}/>
+        {state.user ? (
+          <Logout handleClose={handleClose} />
+        ) : (
+          <Login handleClose={handleClose} />
+        )}
       </Popover>
     </div>
   )
