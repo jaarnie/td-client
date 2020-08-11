@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 // import { useHistory } from 'react-router-dom'
 
-import { setAccessToken } from '../../utils/session'
+import { setAccessToken, getAccessToken } from '../../utils/session'
 import { Store } from '../../Store'
 import { authApi, server } from '../../api/api'
 // import { MAIN_COLOUR } from "../../constants"
@@ -75,54 +75,12 @@ export default function Login({ handleClose }) {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  // const getAllUsers = async (endpoint) => {
-
-  //   const usersResponse = await authApi.get(`/${endpoint}`)
-  //   const arr = []
-  //   usersResponse.data.forEach((x) =>
-  //     arr.push({
-  //       id: x.id,
-  //       firstName: x.first_name,
-  //       lastName: x.last_name,
-  //     })
-  //   )
-  //   dispatch({
-  //     type: 'SET_ALL_USERS',
-  //     payload: arr,
-  //   })
-  // }
-
-  // const getUser = async () => {
-  //   try {
-  //     const response = await authApi.get('/')
-
-  //   } catch {
-
-  //   }
-
-  //   // if (!response.data.is_therapist) {
-  //   //   getAllUsers('therapists')
-  //     // dispatch({
-  //     //   type: 'SET_USER',
-  //     //   payload: response.data,
-  //     // })
-  //   //   dispatch({
-  //   //     type: 'SET_ENTRIES',
-  //   //     payload: response.data.entries,
-  //   //   })
-  //   //   return history.push('/home')
-  //   // } else {
-  //   //   dispatch({
-  //   //     type: 'SET_THERAPIST',
-  //   //     payload: response.data,
-  //   //   })
-  //   //   return history.push('/therapist')
-  //   // }
-  // }
-
   const getUser = async () => {
     try {
-      const response = await server.get('/profile')
+      const response = await server.get('/profile', {
+        headers: { Authorization: 'Bearer ' + getAccessToken() },
+      })
+
       if (response.status === 200) {
         dispatch({
           type: 'SET_USER',
@@ -132,27 +90,30 @@ export default function Login({ handleClose }) {
           variant: 'success',
         })
       }
-    } catch {
-      enqueueSnackbar(`Error`, {
+    } catch (error) {
+      debugger
+      enqueueSnackbar(`${error.response.data.message}`, {
         variant: 'error',
       })
     }
+    handleClose()
   }
 
   const handleClick = async (event) => {
     event.preventDefault()
     try {
       const response = await authApi.post('/login', {
-          email: values.username,
-          password: values.password,
+        email: values.username,
+        password: values.password,
       })
       if (response.status === 200) {
         setAccessToken(response)
-        getUser()
-
+        if (localStorage.auth_token) {
+          getUser()
+        }
       }
-    } catch (err) {
-      enqueueSnackbar(`Error`, {
+    } catch (error) {
+      enqueueSnackbar(`${error.response.data.message}`, {
         variant: 'error',
       })
     }
