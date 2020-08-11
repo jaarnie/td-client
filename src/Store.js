@@ -5,7 +5,7 @@ export const Store = createContext()
 const initialState = {
   user: null,
   therapist: null,
-  entries: [],
+  // entries: [],
   setEntries: null,
   datetime: null,
   allUsers: []
