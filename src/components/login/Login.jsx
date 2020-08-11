@@ -15,11 +15,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
-import Axios from 'axios'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 
-import { serverRoot, serverHeaders } from '../../config/index'
+import { setAccessToken } from '../../utils/session'
 import { Store } from '../../Store'
+import { authApi, server } from '../../api/api'
 // import { MAIN_COLOUR } from "../../constants"
 
 function Copyright() {
@@ -61,15 +61,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Login({ handleClose }) {
-  const history = useHistory()
+  // const history = useHistory()
   const { state, dispatch } = useContext(Store)
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
-
-  const axiosServer = Axios.create({
-    baseURL: serverRoot,
-    headers: serverHeaders,
-  })
 
   const [values, setValues] = useState({
     username: '',
@@ -80,51 +75,81 @@ export default function Login({ handleClose }) {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  const getUsers = async (endpoint) => {
-    const usersResponse = await axiosServer.get(`/${endpoint}`)
-    const arr = []
-    usersResponse.data.forEach((x) =>
-      arr.push({
-        id: x.id,
-        firstName: x.first_name,
-        lastName: x.last_name,
+  // const getAllUsers = async (endpoint) => {
+
+  //   const usersResponse = await authApi.get(`/${endpoint}`)
+  //   const arr = []
+  //   usersResponse.data.forEach((x) =>
+  //     arr.push({
+  //       id: x.id,
+  //       firstName: x.first_name,
+  //       lastName: x.last_name,
+  //     })
+  //   )
+  //   dispatch({
+  //     type: 'SET_ALL_USERS',
+  //     payload: arr,
+  //   })
+  // }
+
+  // const getUser = async () => {
+  //   try {
+  //     const response = await authApi.get('/')
+
+  //   } catch {
+
+  //   }
+
+  //   // if (!response.data.is_therapist) {
+  //   //   getAllUsers('therapists')
+  //     // dispatch({
+  //     //   type: 'SET_USER',
+  //     //   payload: response.data,
+  //     // })
+  //   //   dispatch({
+  //   //     type: 'SET_ENTRIES',
+  //   //     payload: response.data.entries,
+  //   //   })
+  //   //   return history.push('/home')
+  //   // } else {
+  //   //   dispatch({
+  //   //     type: 'SET_THERAPIST',
+  //   //     payload: response.data,
+  //   //   })
+  //   //   return history.push('/therapist')
+  //   // }
+  // }
+
+  const getUser = async () => {
+    try {
+      const response = await server.get('/profile')
+      if (response.status === 200) {
+        dispatch({
+          type: 'SET_USER',
+          payload: response.data,
+        })
+        enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
+          variant: 'success',
+        })
+      }
+    } catch {
+      enqueueSnackbar(`Error`, {
+        variant: 'error',
       })
-    )
-    dispatch({
-      type: 'SET_ALL_USERS',
-      payload: arr,
-    })
+    }
   }
 
   const handleClick = async (event) => {
     event.preventDefault()
     try {
-      const response = await axiosServer.post('/login', {
-        username: values.username,
-        password: values.password,
+      const response = await authApi.post('/login', {
+          email: values.username,
+          password: values.password,
       })
       if (response.status === 200) {
-        enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
-          variant: 'success',
-        })
-        if (!response.data.is_therapist) {
-          getUsers('therapists')
-          dispatch({
-            type: 'SET_USER',
-            payload: response.data,
-          })
-          dispatch({
-            type: 'SET_ENTRIES',
-            payload: response.data.entries,
-          })
-          return history.push('/home')
-        } else {
-          dispatch({
-            type: 'SET_THERAPIST',
-            payload: response.data,
-          })
-          return history.push('/therapist')
-        }
+        setAccessToken(response)
+        getUser()
+
       }
     } catch (err) {
       enqueueSnackbar(`Error`, {
