@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, useEffect } from 'react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { Editor } from 'react-draft-wysiwyg'
 import { makeStyles } from '@material-ui/core/styles'
 import { EditorState, convertToRaw } from 'draft-js'
-import { Button, Paper, Grid } from '@material-ui/core'
+import { Button, Paper, Grid, Typography } from '@material-ui/core'
 import Axios from 'axios'
 import { useSnackbar } from 'notistack'
 
@@ -15,6 +15,9 @@ import SelectUsers from '../SelectUsers/SelectUsers'
 import Stepper from '../Stepper/Stepper'
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: '10vh',
+  },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -24,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   editorClass: {
-    height: '40vh',
+    height: '20vh',
   },
 }))
 
@@ -64,7 +67,6 @@ export default function EntryEditor() {
     // overwrite if exists
     event.preventDefault()
     const contentRaw = convertToRaw(localState.editorState.getCurrentContent())
-    // debugger
     if (!localState.mood) {
       enqueueSnackbar('You must select a mood', {
         variant: 'error',
@@ -73,9 +75,6 @@ export default function EntryEditor() {
       try {
         const response = await axiosServer.post('/entries', {
           content: JSON.stringify(contentRaw),
-          // happy_score: 10, //admin
-          // sad_score: 0, // admin
-          // achievement_score: 0,
           therapist_id: 1, // pass down from admin
           user_id: 1,
           user_entry_datetime: selectedDate,
@@ -115,11 +114,11 @@ export default function EntryEditor() {
   }
 
   // const entryTitle = () => {}
-
+  // debugger
   return (
-    <div>
-      {console.log(localState)}
-      {console.log(localState.mood)}
+    <div className={classes.root}>
+      {console.log('localState >>>', localState)}
+      {console.log('select value >>>', selectedUser)}
       {feelingsIcons()}
       <Time selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       <Paper className={classes.paper}>
@@ -131,14 +130,23 @@ export default function EntryEditor() {
           onEditorStateChange={handleEditorChange}
         />
       </Paper>
-      <SelectUsers
-        handleSelectChange={handleSelectChange}
-        users={state.allUsers}
-        name={selectedUser.name}
-        value={selectedUser}
-      />
+      {state.user ? (
+        <SelectUsers
+          handleSelectChange={handleSelectChange}
+          users={state.linkedUsers}
+          name={selectedUser.name}
+          value={selectedUser}
+          user={state.user}
+        />
+      ) : (
+        <Typography variant='h5'>
+          Please add your recipient in your profile
+        </Typography>
+      )}
+
+      {/* therapists need to map users to state or it blows */}
       <div style={{ textAlign: 'center' }}>
-      <Stepper />
+        <Stepper />
         <Button
           className={classes.button}
           variant='contained'

@@ -13,9 +13,10 @@ import EntryEditor from './components/EntryEditor/EntryEditor'
 
 import { Store } from './Store'
 import { server } from './api/api'
+import { setUserDetailsToState } from './utils/index'
 
 function App() {
-  const { dispatch } = useContext(Store)
+  const { state, dispatch } = useContext(Store)
 
   useEffect(() => {
     async function fetchSession() {
@@ -23,17 +24,14 @@ function App() {
         try {
           const response = await server.get(`/profile`)
           if (response.status === 200) {
-            dispatch({
-              type: 'SET_USER',
-              payload: response.data,
-            })
+            setUserDetailsToState(response, dispatch)
           }
         } catch {}
       }
     }
     fetchSession()
   }, [])
-
+  console.log(state)
   return (
     <div className='App'>
       <CssBaseline />

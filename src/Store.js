@@ -1,38 +1,23 @@
-import React, { createContext } from "react"
+import React, { createContext } from 'react'
 
 export const Store = createContext()
 
 const initialState = {
   user: null,
-  therapist: null,
-  // entries: [],
-  setEntries: null,
-  datetime: null,
-  allUsers: []
+  linkedUsers: [],
+  entries: [],
 }
 
 function reducer(state, action) {
   switch (action.type) {
-    case "SET_USER":
+    case 'SET_USER':
       return { ...state, user: action.payload }
 
-    case "SET_ENTRIES":
+    case 'SET_ENTRIES':
       return { ...state, entries: action.payload }
 
-    // case "GET_ENTRIES":
-    //   return { ...state, entries: action.payload }
-
-    // case "SET_ENTRIES":
-    //   return { ...state, setEntries: action.payload }
-
-    case "SET_THERAPIST":
-      return { ...state, therapist: action.payload }
-
-    case "SET_DATETIME":
-      return { ...state, datetime: action.payload }
-
-    case "SET_ALL_USERS":
-      return { ...state, allUsers: action.payload }
+    case 'SET_LINKED_USERS':
+      return { ...state, linkedUsers: action.payload }
 
     default:
       return { ...state }
