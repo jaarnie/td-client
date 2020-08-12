@@ -12,7 +12,7 @@ import {
   List,
   ListItemIcon,
 } from '@material-ui/core'
-
+import { Link } from 'react-router-dom'
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
@@ -124,13 +124,21 @@ export default function ButtonAppBar() {
     }
   }
 
-  const menuItems = () =>
-    ['Write Entry', 'Entries', 'Profile'].map((name) => (
-      <ListItem button>
-        <ListItemIcon>{menuIcons(name)}</ListItemIcon>
-        <ListItemText primary={name} />
-      </ListItem>
+  const menuItems = () => {
+    const map = {
+      '/editor': 'Write Entry',
+      '/entries': 'Entries',
+      '/profile': 'Profile',
+    }
+    return Object.entries(map).map((obj) => (
+      <Link to={obj[0]}>
+        <ListItem button>
+          <ListItemIcon>{menuIcons(obj[1])}</ListItemIcon>
+          <ListItemText primary={obj[1]} />
+        </ListItem>
+      </Link>
     ))
+  }
 
   return (
     <div className={classes.root}>

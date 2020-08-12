@@ -9,6 +9,7 @@ import Therapist from './components/Therapist/Therapist'
 import Entry from './components/Entry/Entry'
 import SignUp from './components/SignUp/SignUp'
 import Login from './components/Login/Login'
+import EntryEditor from './components/EntryEditor/EntryEditor'
 
 import { Store } from './Store'
 import { server } from './api/api'
@@ -42,6 +43,7 @@ function App() {
           <Route exact path='/therapist' component={Therapist} />
           <Route path='/home' component={Home} />
           <Route path='/entry/:id' component={Entry} />
+          <Route path='/editor' component={EntryEditor} />
           <Route path='/sign-up' component={SignUp} />
           <Route path='/login' component={Login} />
           <Route component={NotFound} />
