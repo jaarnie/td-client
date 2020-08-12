@@ -15,12 +15,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { setAccessToken, getAccessToken } from '../../utils/session'
+import { setUserDetailsToState } from '../../utils/index'
 import { Store } from '../../Store'
 import { authApi, server } from '../../api/api'
-// import { MAIN_COLOUR } from "../../constants"
 
 function Copyright() {
   return (
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    // backgroundColor: MAIN_COLOUR
   },
   form: {
     width: '100%',
@@ -56,12 +55,11 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    // backgroundColor: MAIN_COLOUR
   },
 }))
 
 export default function Login({ handleClose }) {
-  // const history = useHistory()
+  const history = useHistory()
   const { state, dispatch } = useContext(Store)
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
@@ -82,10 +80,7 @@ export default function Login({ handleClose }) {
       })
 
       if (response.status === 200) {
-        dispatch({
-          type: 'SET_USER',
-          payload: response.data,
-        })
+        setUserDetailsToState(response, dispatch)
         enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
           variant: 'success',
         })
@@ -97,6 +92,7 @@ export default function Login({ handleClose }) {
       })
     }
     handleClose()
+    history.push('/home')
   }
 
   const handleClick = async (event) => {
