@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { setAccessToken, getAccessToken } from '../../utils/session'
 import { Store } from '../../Store'
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Login({ handleClose }) {
-  // const history = useHistory()
+  const history = useHistory()
   const { state, dispatch } = useContext(Store)
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
@@ -97,6 +97,7 @@ export default function Login({ handleClose }) {
       })
     }
     handleClose()
+    history.push('/home')
   }
 
   const handleClick = async (event) => {

@@ -12,6 +12,7 @@ import { serverHeaders, serverRoot } from '../../config/index'
 import Time from '../Time/Time'
 import { happyIcon, neutralIcon, sadIcon } from '../../constants/Icons'
 import SelectUsers from '../SelectUsers/SelectUsers'
+import Stepper from '../Stepper/Stepper'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -137,6 +138,7 @@ export default function EntryEditor() {
         value={selectedUser}
       />
       <div style={{ textAlign: 'center' }}>
+      <Stepper />
         <Button
           className={classes.button}
           variant='contained'

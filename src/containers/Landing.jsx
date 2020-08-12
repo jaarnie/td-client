@@ -2,13 +2,13 @@ import React, { useContext } from "react"
 
 import { Store } from "../Store"
 
-export default function Home() {
+export default function Landing() {
   // const { state } = useContext(Store)
 
 
   return (
     <div>
-      Home
+      Landing Page
     </div>
   )
 }

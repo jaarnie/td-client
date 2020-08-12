@@ -2,9 +2,9 @@ import React, { useEffect, useContext } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CssBaseline, Container } from '@material-ui/core'
 
-import Home from './containers/Home'
+import Landing from './containers/Landing'
 import NotFound from './NotFound'
-import UserAdmin from './components/UserAdmin/UserAdmin'
+import Home from './components/Home/Home'
 import Therapist from './components/Therapist/Therapist'
 import Entry from './components/Entry/Entry'
 import SignUp from './components/SignUp/SignUp'
@@ -38,9 +38,9 @@ function App() {
       <CssBaseline />
       <Container maxWidth='md'>
         <Switch>
-          <Route exact path='/' component={Home} />
+          <Route exact path='/' component={Landing} />
           <Route exact path='/therapist' component={Therapist} />
-          <Route path='/home' component={UserAdmin} />
+          <Route path='/home' component={Home} />
           <Route path='/entry/:id' component={Entry} />
           <Route path='/sign-up' component={SignUp} />
           <Route path='/login' component={Login} />
