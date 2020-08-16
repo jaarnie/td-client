@@ -15,9 +15,6 @@ import SelectUsers from '../SelectUsers/SelectUsers'
 import Stepper from '../Stepper/Stepper'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: '10vh',
-  },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -47,9 +44,6 @@ export default function EntryEditor() {
   const [localState, setLocalState] = useState({
     editorState: EditorState.createEmpty(),
     mood: null,
-    happy_score: null,
-    sad_score: null,
-    achievement_score: null,
     therapist_id: null,
   })
 
@@ -113,12 +107,9 @@ export default function EntryEditor() {
     )
   }
 
-  // const entryTitle = () => {}
-  // debugger
   return (
-    <div className={classes.root}>
-      {console.log('localState >>>', localState)}
-      {console.log('select value >>>', selectedUser)}
+    <div>
+    {console.log(localState)}
       {feelingsIcons()}
       <Time selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       <Paper className={classes.paper}>
