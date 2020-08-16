@@ -4,7 +4,7 @@ import { Editor, EditorState, convertFromRaw } from 'draft-js'
 import { Paper, Grid, Typography } from '@material-ui/core'
 
 // import { Store } from '../../Store'
-import { getTime, getDate } from '../../constants/index'
+import { getTime, getDate } from '../../utils/helpers'
 import { showIcon } from '../../constants/Icons'
 
 const useStyles = makeStyles((theme) => ({

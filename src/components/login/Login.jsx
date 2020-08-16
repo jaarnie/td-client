@@ -86,7 +86,6 @@ export default function Login({ handleClose }) {
         })
       }
     } catch (error) {
-      debugger
       enqueueSnackbar(`${error.response.data.message}`, {
         variant: 'error',
       })
