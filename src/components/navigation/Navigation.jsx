@@ -33,6 +33,7 @@ const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    marginBottom: '10vh',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -95,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function ButtonAppBar() {
+export default function Navigation() {
   const { state } = useContext(Store)
   const classes = useStyles()
   const theme = useTheme()
@@ -124,6 +125,7 @@ export default function ButtonAppBar() {
     }
   }
 
+  // make parent/child component?
   const menuItems = () => {
     const map = {
       '/editor': 'Write Entry',
@@ -131,7 +133,7 @@ export default function ButtonAppBar() {
       '/profile': 'Profile',
     }
     return Object.entries(map).map((obj) => (
-      <Link to={obj[0]}>
+      <Link to={obj[0]} key={obj[0]}>
         <ListItem button>
           <ListItemIcon>{menuIcons(obj[1])}</ListItemIcon>
           <ListItemText primary={obj[1]} />
@@ -139,6 +141,11 @@ export default function ButtonAppBar() {
       </Link>
     ))
   }
+
+  const linkedUsersText =
+    state.user && state.user.type === 'Therapist'
+      ? 'Your client(s)'
+      : 'Your therapist(s)'
 
   return (
     <div className={classes.root}>
@@ -201,7 +208,7 @@ export default function ButtonAppBar() {
             <ListItemIcon>
               <People />
             </ListItemIcon>
-            <ListItemText primary={'Your Therapist(s)'} />
+            <ListItemText primary={linkedUsersText} />
           </ListItem>
         </List>
       </Drawer>
