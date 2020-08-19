@@ -10,7 +10,7 @@ import CardMedia from "@material-ui/core/CardMedia"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 
-import { getDate } from "../../utils/helpers"
+import { getFormattedDateTime } from "../../utils/helpers"
 import { showIcon } from "../../constants/Icons"
 
 
@@ -41,7 +41,7 @@ export default function DailyCard({ entry }) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {getDate(entry.user_entry_datetime)}
+            {getFormattedDateTime(entry.user_entry_datetime)}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {entry.user_content_title}
