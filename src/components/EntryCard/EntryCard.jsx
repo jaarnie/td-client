@@ -1,32 +1,30 @@
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import { Link } from "react-router-dom"
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 
-import Card from "@material-ui/core/Card"
-import CardActionArea from "@material-ui/core/CardActionArea"
-import CardActions from "@material-ui/core/CardActions"
-import CardContent from "@material-ui/core/CardContent"
-import CardMedia from "@material-ui/core/CardMedia"
-import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 
-import { getFormattedDateTime } from "../../utils/helpers"
-import { showIcon } from "../../constants/Icons"
-
+import { getFormattedDateTime } from '../../utils/helpers'
+import { showIcon } from '../../constants/Icons'
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 345
+    maxWidth: 345,
   },
   media: {
-    height: 140
-  }
+    height: 140,
+  },
 })
 
 export default function DailyCard({ entry }) {
   const classes = useStyles()
 
-  // debugger
   const handleClick = () => {
     // return history.push(`/entry/${entryId}`)
   }
@@ -36,28 +34,34 @@ export default function DailyCard({ entry }) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="https://www.picsum.photos/300/200"
-          title="Entry Pic"
+          // image="https://www.picsum.photos/300/200"
+          image='https://picsum.photos/id/926/300/200.jpg'
+          title='Entry Pic'
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography
+            gutterBottom
+            color='textSecondary'
+            variant='p'
+            component='p'
+          >
             {getFormattedDateTime(entry.user_entry_datetime)}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {entry.user_content_title}
+          <Typography variant='h5' component='h5'>
+            {/* {entry.user.first_name} */}
+            {entry.content_title}
           </Typography>
           {showIcon(entry)}
-
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Link
           to={{
             pathname: `/entry/${entry.id}`,
-            state: { entry }
+            state: { entry },
           }}
         >
-          <Button size="small" color="primary" component="span">
+          <Button size='small' color='primary' component='span'>
             Read Entry
           </Button>
         </Link>

@@ -21,6 +21,7 @@ import { setAccessToken, getAccessToken } from '../../utils/session'
 import { setUserDetailsToState } from '../../utils/index'
 import { Store } from '../../Store'
 import { authApi, server } from '../../api/api'
+import { serverHeaderToken } from '../../config'
 
 function Copyright() {
   return (
@@ -76,7 +77,7 @@ export default function Login({ handleClose }) {
   const getUser = async () => {
     try {
       const response = await server.get('/profile', {
-        headers: { Authorization: 'Bearer ' + getAccessToken() },
+        headers: { 'Authorization': 'Bearer ' + getAccessToken() },
       })
 
       if (response.status === 200) {
