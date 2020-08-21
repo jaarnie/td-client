@@ -1,14 +1,13 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { Editor } from 'react-draft-wysiwyg'
 import { makeStyles } from '@material-ui/core/styles'
 import { EditorState, convertToRaw } from 'draft-js'
 import { Button, Paper, Grid, Typography } from '@material-ui/core'
-import Axios from 'axios'
 import { useSnackbar } from 'notistack'
 
 import { Store } from '../../Store'
-import { serverHeaders, serverRoot } from '../../config/index'
+import { server } from '../../api/api'
 import Time from '../Time/Time'
 import { happyIcon, neutralIcon, sadIcon } from '../../constants/Icons'
 import SelectUsers from '../SelectUsers/SelectUsers'
@@ -34,11 +33,6 @@ export default function EntryEditor() {
 
   const { enqueueSnackbar } = useSnackbar()
 
-  const axiosServer = Axios.create({
-    baseURL: serverRoot,
-    headers: serverHeaders,
-  })
-
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [selectedUser, setSelectedUser] = useState('')
   const [localState, setLocalState] = useState({
@@ -49,12 +43,14 @@ export default function EntryEditor() {
 
   const handleEditorChange = (editorState) => {
     setLocalState({
+      ...localState,
       editorState,
     })
   }
 
   const handleSelectChange = useCallback((event) => {
     setSelectedUser(event.target.value)
+    setLocalState({ ...localState, therapist_id: event.target.value })
   }, [])
 
   const handleSave = async (event) => {
@@ -67,13 +63,13 @@ export default function EntryEditor() {
       })
     } else {
       try {
-        const response = await axiosServer.post('/entries', {
+        const response = await server.post('/entries', {
           content: JSON.stringify(contentRaw),
-          therapist_id: 1, // pass down from admin
+          therapist_id: localState.therapist_id,
           user_id: 1,
           user_entry_datetime: selectedDate,
           mood: localState.mood,
-          content_title: null,
+          content_title: 'testing',
         })
         if (response.status === 201) {
           enqueueSnackbar('Entry saved', {
@@ -81,7 +77,9 @@ export default function EntryEditor() {
           })
         }
       } catch (err) {
-        console.log(err)
+        enqueueSnackbar(`Error: ${err}`, {
+          variant: 'error',
+        })
       }
     }
   }
@@ -109,7 +107,6 @@ export default function EntryEditor() {
 
   return (
     <div>
-    {console.log(localState)}
       {feelingsIcons()}
       <Time selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       <Paper className={classes.paper}>
