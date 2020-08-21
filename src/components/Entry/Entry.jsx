@@ -4,7 +4,7 @@ import { Editor, EditorState, convertFromRaw } from 'draft-js'
 import { Paper, Grid, Typography } from '@material-ui/core'
 
 // import { Store } from '../../Store'
-import { getTime, getDate } from '../../utils/helpers'
+import { getTime, getFormattedDateTime } from '../../utils/helpers'
 import { showIcon } from '../../constants/Icons'
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +49,7 @@ export default function Entry(entry) {
         <Grid item xs>
           <Paper className={classes.paper}>
             <Typography variant='h5'>{getTime(datetime)}</Typography>
-            <Typography variant='h6'>{getDate(datetime)}</Typography>
+            <Typography variant='h6'>{getFormattedDateTime(datetime)}</Typography>
           </Paper>
         </Grid>
 
