@@ -1,6 +1,4 @@
-import React, { useContext } from "react"
-
-import { Store } from "../Store"
+import React from "react"
 
 export default function Landing() {
   // const { state } = useContext(Store)
