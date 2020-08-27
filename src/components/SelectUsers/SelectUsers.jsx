@@ -21,7 +21,6 @@ export default function SelectUsers({
   const classes = useStyles()
 
   const items = (users) => {
-    console.log('select users >>>', users)
     return users.map((user) => (
       <MenuItem key={user.id} value={user.id}>
         {user.first_name + ' ' + user.last_name}
@@ -31,7 +30,6 @@ export default function SelectUsers({
 
   const title = user.type === 'Therapist' ? 'Client' : 'Therapist'
 
-  console.log('value >>>', value)
   return (
     <div>
       <FormControl className={classes.formControl}>

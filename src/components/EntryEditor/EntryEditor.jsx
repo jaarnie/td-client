@@ -12,15 +12,13 @@ import Time from '../Time/Time'
 import { happyIcon, neutralIcon, sadIcon } from '../../constants/Icons'
 import SelectUsers from '../SelectUsers/SelectUsers'
 import Stepper from '../Stepper/Stepper'
+import EntryProgressBar from '../EntryProgressBar/EntryProgressBar'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-  },
-  button: {
-    margin: theme.spacing(3, 0, 2),
   },
   editorClass: {
     height: '20vh',
@@ -137,15 +135,10 @@ export default function EntryEditor() {
 
       {/* therapists need to map users to state or it blows */}
       <div style={{ textAlign: 'center' }}>
-        <Stepper />
-        <Button
-          className={classes.button}
-          variant='contained'
-          color='primary'
-          onClick={handleSave}
-        >
-          Save
-        </Button>
+        <EntryProgressBar
+          progress={[linkedUser, localState.mood]}
+          handleSave={handleSave}
+        />
       </div>
     </div>
   )
