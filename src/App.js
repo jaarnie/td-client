@@ -16,6 +16,7 @@ import { Store } from './Store'
 import { server } from './api/api'
 import { setUserDetailsToState } from './utils/index'
 import Profile from './components/Profile/Profile'
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
 function App() {
   const { state, dispatch } = useContext(Store)
@@ -43,12 +44,13 @@ function App() {
           <Route exact path='/' component={Landing} />
           <Route exact path='/therapist' component={Therapist} />
           <Route path='/home' component={Home} />
-          <Route path='/entry/:id' component={Entry} />
-          <Route path='/entries' component={Entries} />
-          <Route path='/editor' component={EntryEditor} />
           <Route path='/sign-up' component={SignUp} />
           <Route path='/login' component={Login} />
-          <Route path='/profile' component={Profile} />
+
+          <PrivateRoute path="/entry/:id" component={Entry} />
+          <PrivateRoute path="/entries" component={Entries} />
+          <PrivateRoute path="/editor" component={EntryEditor} />
+          <PrivateRoute path="/profile" component={Profile} />
 
           <Route component={NotFound} />
         </Switch>
