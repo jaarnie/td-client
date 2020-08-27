@@ -53,7 +53,7 @@ export default function EntryEditor() {
     setSelectedUser(event.target.value)
     setLinkedUser(event.target.value)
     // setLocalState({ ...localState, therapist_id: event.target.value })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSave = async (event) => {

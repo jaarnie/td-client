@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import MapCards from '../MapCards/MapCards'
-import { useHistory } from 'react-router-dom'
 import { get } from 'lodash'
 
 import { Store } from '../../Store'
@@ -12,7 +11,6 @@ export default function Entries() {
   const { state, dispatch } = useContext(Store)
   const entries = get(state, 'entries')
   const sortedEntries = sortByRecent(entries)
-  const history = useHistory()
 
   useEffect(() => {
     async function fetchEntries() {
@@ -30,7 +28,7 @@ export default function Entries() {
 
   return (
     <div>
-      {state.user ? <MapCards entries={sortedEntries.slice(0, 7)} /> : history.push('/home')}
+      <MapCards entries={sortedEntries.slice(0, 7)} />
     </div>
 
   )
