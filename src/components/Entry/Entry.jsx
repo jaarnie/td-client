@@ -1,15 +1,32 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Editor, EditorState, convertFromRaw } from 'draft-js'
-import { Paper, Grid, Typography } from '@material-ui/core'
+import {
+  Paper,
+  Grid,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+} from '@material-ui/core'
 
-import { getTime, getFormattedDateTime } from '../../utils/helpers'
+import {
+  Person as PersonIcon,
+  Schedule as ScheduleIcon,
+} from '@material-ui/icons/'
+
+import { getFormattedDateTime } from '../../utils/helpers'
 import { showIcon } from '../../constants/Icons'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     padding: '20px',
+  },
+  icon: {
+    background: 'transparent',
   },
 }))
 
@@ -22,31 +39,34 @@ export default function Entry(entry) {
 
   return (
     <div>
-      <Grid container spacing={3}>
-        <Grid item xs>
-          <Paper className={classes.paper}>
-            <Typography variant='h5'>{getTime(datetime)}</Typography>
-            <Typography variant='h6'>
-              {getFormattedDateTime(datetime)}
-            </Typography>
-          </Paper>
-        </Grid>
 
-        <Grid item xs>
-          <Paper className={classes.paper}>
-            <Typography variant='h6'>
-              Patient:
-              {/* {userEntry.user.first_name + ' ' + userEntry.user.last_name} */}
-            </Typography>
-          </Paper>
-        </Grid>
-
-        <Grid item xs>
-          <Paper className={classes.paper}>
-            <div style={{ textAlign: 'center' }}>{showIcon(userEntry)}</div>
-          </Paper>
-        </Grid>
-      </Grid>
+      <List className={classes.root}>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <PersonIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary='Client' secondary={userEntry.username} />
+        </ListItem>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <ScheduleIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary='Date'
+            secondary={getFormattedDateTime(datetime)}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar className={classes.icon}>{showIcon(userEntry)}</Avatar>
+          </ListItemAvatar>
+          <ListItemText primary='Mood' secondary={userEntry.mood} />
+        </ListItem>
+      </List>
 
       <Grid container spacing={3}>
         <Grid item xs={12}>
