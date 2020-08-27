@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { get } from 'lodash'
 
 import { Store } from '../../Store'
-import { sortIntoWeek, sortByRecent } from '../../utils/helpers'
+import { sortByRecent } from '../../utils/helpers'
 import { server } from '../../api/api'
 import { getAccessToken } from '../../utils/session'
 

@@ -21,7 +21,6 @@ import { setAccessToken, getAccessToken } from '../../utils/session'
 import { setUserDetailsToState } from '../../utils/index'
 import { Store } from '../../Store'
 import { authApi, server } from '../../api/api'
-import { serverHeaderToken } from '../../config'
 
 function Copyright() {
   return (

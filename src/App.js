@@ -32,7 +32,7 @@ function App() {
       }
     }
     fetchSession()
-  }, [])
+  }, [dispatch])
 
   console.log(state)
   return (

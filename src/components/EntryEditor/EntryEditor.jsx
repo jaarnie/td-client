@@ -35,6 +35,7 @@ export default function EntryEditor() {
 
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [selectedUser, setSelectedUser] = useState('')
+  const [linkedUser, setLinkedUser] = useState(null)
   const [localState, setLocalState] = useState({
     editorState: EditorState.createEmpty(),
     mood: null,
@@ -50,7 +51,9 @@ export default function EntryEditor() {
 
   const handleSelectChange = useCallback((event) => {
     setSelectedUser(event.target.value)
-    setLocalState({ ...localState, therapist_id: event.target.value })
+    setLinkedUser(event.target.value)
+    // setLocalState({ ...localState, therapist_id: event.target.value })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSave = async (event) => {
@@ -65,7 +68,7 @@ export default function EntryEditor() {
       try {
         const response = await server.post('/entries', {
           content: JSON.stringify(contentRaw),
-          therapist_id: localState.therapist_id,
+          therapist_id: linkedUser,
           user_id: 1,
           user_entry_datetime: selectedDate,
           mood: localState.mood,
