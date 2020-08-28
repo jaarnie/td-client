@@ -3,7 +3,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { Editor } from 'react-draft-wysiwyg'
 import { makeStyles } from '@material-ui/core/styles'
 import { EditorState, convertToRaw } from 'draft-js'
-import { Button, Paper, Grid, Typography } from '@material-ui/core'
+import { Paper, Grid, Typography } from '@material-ui/core'
 import { useSnackbar } from 'notistack'
 
 import { Store } from '../../Store'
@@ -11,7 +11,6 @@ import { server } from '../../api/api'
 import Time from '../Time/Time'
 import { happyIcon, neutralIcon, sadIcon } from '../../constants/Icons'
 import SelectUsers from '../SelectUsers/SelectUsers'
-import Stepper from '../Stepper/Stepper'
 import EntryProgressBar from '../EntryProgressBar/EntryProgressBar'
 
 const useStyles = makeStyles((theme) => ({

@@ -1,65 +1,61 @@
-import React from "react"
+import React from 'react'
 import {
   SentimentSatisfiedOutlined,
   SentimentVeryDissatisfied,
-  SentimentDissatisfied
-} from "@material-ui/icons"
-import { IconButton } from "@material-ui/core"
+  SentimentDissatisfied,
+} from '@material-ui/icons'
+import { IconButton } from '@material-ui/core'
 
-export const happyIcon = (handleClick, disable) => {
+export const happyIcon = (handleClick, bool) => (
+  <IconButton
+    aria-label='happy'
+    onClick={handleClick}
+    value='happy'
+    style={{ color: '#43a047' }}
+    disabled={bool}
+  >
+    <SentimentSatisfiedOutlined fontSize='large' />
+  </IconButton>
+)
+
+export const neutralIcon = (handleClick, bool) => {
   return (
     <IconButton
-      aria-label="happy"
+      aria-label='neutral'
       onClick={handleClick}
-      value="happy"
-      style={{ color: "#43a047" }}
-      disabled={disable}
+      value='neutral'
+      style={{ color: '#fc9303' }}
+      disabled={bool}
     >
-      <SentimentSatisfiedOutlined fontSize="large" />
+      <SentimentDissatisfied fontSize='large' />
     </IconButton>
   )
 }
 
-export const neutralIcon = (handleClick, disable) => {
+export const sadIcon = (handleClick, bool) => {
   return (
     <IconButton
-      aria-label="neutral"
+      aria-label='sad'
       onClick={handleClick}
-      value="neutral"
-      style={{ color: "#fc9303" }}
-      disabled={disable}
+      value='sad'
+      style={{ color: '#c4342d' }}
+      disabled={bool}
     >
-      <SentimentDissatisfied fontSize="large" />
+      <SentimentVeryDissatisfied fontSize='large' />
     </IconButton>
   )
 }
-
-export const sadIcon = (handleClick, disable) => {
-  return (
-    <IconButton
-      aria-label="sad"
-      onClick={handleClick}
-      value="sad"
-      style={{ color: "#c4342d" }}
-      disabled={disable}
-    >
-      <SentimentVeryDissatisfied fontSize="large" />
-    </IconButton>
-  )
-}
-
 
 export const showIcon = (userDaily) => {
-    const mood = userDaily.mood
-    const disable = true
+  const mood = userDaily.mood
 
-    if (mood === "happy") {
-      return happyIcon(null, disable)
-    } else if (mood === "neutral") {
-      return neutralIcon(null, disable)
-    } else if (mood === "sad") {
-      return sadIcon(null, disable)
-    } else {
-      return null
-    }
+  if (mood === 'happy') {
+    return happyIcon(null, false)
+  } else if (mood === 'neutral') {
+    return neutralIcon(null, false)
+  } else if (mood === 'sad') {
+    return sadIcon(null, false)
+  } else {
+    return null
   }
+}
