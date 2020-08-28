@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom'
 import {
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
-  Button,
   Typography,
 } from '@material-ui/core/'
 
@@ -27,47 +25,33 @@ const useStyles = makeStyles({
 export default function DailyCard({ entry }) {
   const classes = useStyles()
 
-  const handleClick = () => {
-    // return history.push(`/entry/${entryId}`)
-  }
-
   return (
-    <Card className={classes.card} onClick={handleClick}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          // image="https://www.picsum.photos/300/200"
-          image='https://picsum.photos/id/926/300/200.jpg'
-          title='Entry Pic'
-        />
-        <CardContent>
-          <Typography
-            gutterBottom
-            color='textSecondary'
-            variant='p'
-            component='p'
-          >
-            {getFormattedDateTime(entry.user_entry_datetime)}
-          </Typography>
-          <Typography variant='h5' component='h5'>
-            {/* {entry.user.first_name} */}
-            {entry.content_title}
-          </Typography>
-          {showIcon(entry)}
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Link
-          to={{
-            pathname: `/entry/${entry.id}`,
-            state: { entry },
-          }}
-        >
-          <Button size='small' color='primary' component='span'>
-            Read Entry
-          </Button>
-        </Link>
-      </CardActions>
-    </Card>
+    <Link
+      to={{
+        pathname: `/entry/${entry.id}`,
+        state: { entry },
+      }}
+    >
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            // image="https://www.picsum.photos/300/200"
+            image='https://picsum.photos/id/926/300/200.jpg'
+            title='Entry Pic'
+          />
+          <CardContent>
+            <Typography gutterBottom color='textSecondary' variant='body1'>
+              {getFormattedDateTime(entry.user_entry_datetime)}
+            </Typography>
+            <Typography variant='h5' component='h5'>
+              {/* {entry.user.first_name} */}
+              {entry.content_title}
+            </Typography>
+            {showIcon(entry)}
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Link>
   )
 }
