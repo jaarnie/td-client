@@ -9,6 +9,7 @@ import { useSnackbar } from 'notistack'
 import { Store } from '../../Store'
 import { server } from '../../api/api'
 import Time from '../Time/Time'
+import { upperCaseFirst } from '../../utils/helpers'
 import { happyIcon, neutralIcon, sadIcon } from '../../constants/Icons'
 import SelectUsers from '../SelectUsers/SelectUsers'
 import EntryProgressBar from '../EntryProgressBar/EntryProgressBar'
@@ -21,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
   },
   editorClass: {
     height: '20vh',
+  },
+  iconPaper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
   },
 }))
 
@@ -86,29 +91,55 @@ export default function EntryEditor() {
 
   const handleClick = (event) => {
     event.preventDefault()
+
     setLocalState({ ...localState, mood: event.currentTarget.value })
+    // event.currentTarget.style.backgroundColor = moodColor(
+    //   event.currentTarget.value
+    // )
+    // debugger
   }
+
+  // const moodColor = (mood) => {
+  //   switch (mood) {
+  //     case 'happy':
+  //       return 'green'
+  //     case 'neutral':
+  //       return 'yellow'
+  //     case 'sad':
+  //       return 'red'
+  //     default:
+  //       return null
+  //   }
+  // }
 
   const feelingsIcons = () => {
     return (
       <Grid container spacing={3}>
         <Grid item xs>
-          <Paper className={classes.paper}>{happyIcon(handleClick)}</Paper>
+          <Paper className={classes.iconPaper}>{happyIcon(handleClick)}</Paper>
         </Grid>
         <Grid item xs>
-          <Paper className={classes.paper}>{neutralIcon(handleClick)}</Paper>
+          <Paper className={classes.iconPaper}>
+            {neutralIcon(handleClick)}
+          </Paper>
         </Grid>
         <Grid item xs>
-          <Paper className={classes.paper}>{sadIcon(handleClick)}</Paper>
+          <Paper className={classes.iconPaper}>{sadIcon(handleClick)}</Paper>
         </Grid>
       </Grid>
     )
+  }
+
+  const entryDetails = () => {
+    return <Typography variant='h6'>Mood: {upperCaseFirst(localState.mood)}</Typography>
   }
 
   return (
     <div>
       {feelingsIcons()}
       <Time selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+      {entryDetails()}
+
       <Paper className={classes.paper}>
         <Editor
           editorState={localState.editorState}
