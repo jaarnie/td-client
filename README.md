@@ -12,7 +12,7 @@ The client will log in and then be greeted with general mental health info. On t
 
 The write and entry option takes the client to a page with a Word style editor, a generic choice of moods to choose from, the option to backdate/backtime their entry, and finally a list of their therapists/counsellors to chose to send the entry to.
 
-##### Therapist/Counseller
+##### Therapist/Counsellor
 
 The therapist/counsellor will log in to see an area with notifications of which client has sent them entries for them to read. They can then proceed to read the entries and flag them for later reference if nescessary.
 
