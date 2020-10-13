@@ -1,4 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
+
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -97,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Navigation() {
-  const { state } = useContext(Store)
+  const state = useSelector(state => state)
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)

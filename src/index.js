@@ -1,15 +1,16 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import React from 'react'
+import ReactDOM from 'react-dom'
 // import 'babel-polyfill';
-import "./index.css"
-import * as serviceWorker from "./serviceWorker"
-import { createBrowserHistory } from "history"
-import { Router } from "react-router-dom"
-import { SnackbarProvider } from "notistack"
+import './index.css'
+import * as serviceWorker from './serviceWorker'
+import { createBrowserHistory } from 'history'
+import { Router } from 'react-router-dom'
+import { SnackbarProvider } from 'notistack'
+import { Provider } from 'react-redux'
 
-import App from "./App"
+import App from './App'
 import Navigation from './components/Navigation/Navigation'
-import { StoreProvider } from "./Store"
+import store from './redux/store'
 
 const browserHistory = createBrowserHistory()
 
@@ -22,18 +23,18 @@ ReactDOM.render(
     <SnackbarProvider
       maxSnack={1}
       anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left"
+        vertical: 'bottom',
+        horizontal: 'left',
       }}
       autoHideDuration={2000}
     >
-      <StoreProvider>
+      <Provider store={store}>
         <Navigation />
         <App />
-      </StoreProvider>
+      </Provider>
     </SnackbarProvider>
   </Router>,
-  document.getElementById("root")
+  document.getElementById('root')
 )
 
 // If you want your app to work offline and load faster, you can change
