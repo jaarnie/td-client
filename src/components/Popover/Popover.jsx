@@ -1,16 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+
 import { Popover, IconButton } from '@material-ui/core'
 import { AccountCircle } from '@material-ui/icons'
-// import { useHistory } from 'react-router-dom'
 
-import { Store } from '../../Store'
 import Login from '../Login/Login'
 import Logout from '../Logout/Logout'
 
 export default function NavigationPopover() {
-  // const history = useHistory()
-  const { state } = useContext(Store)
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const state = useSelector((state) => state)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)

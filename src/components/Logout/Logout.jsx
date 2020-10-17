@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
+
 import {
   Avatar,
   Button,
@@ -11,17 +12,17 @@ import {
   Typography,
   Container,
 } from '@material-ui/core'
+
 import { makeStyles } from '@material-ui/core/styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
-import { Store } from '../../Store'
 import { destroySession } from '../../utils/session'
 
 function Copyright() {
   return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      <Link color='inherit' to='https://github.com/jaarnie/'>
+    <Typography variant="body2" color="textSecondary" align="center">
+      <Link color="inherit" to="https://github.com/jaarnie/">
         github |
       </Link>{' '}
       {new Date().getFullYear()}
@@ -55,10 +56,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Login({ handleClose }) {
-  const { state } = useContext(Store)
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
-
 
   const handleClick = (event) => {
     // event.preventDefault()
@@ -68,24 +67,22 @@ export default function Login({ handleClose }) {
     })
   }
 
-
-  console.log(state)
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Logout
         </Typography>
         <form className={classes.form} noValidate>
           <Button
-            type='submit'
+            type="submit"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
             onClick={handleClick}
           >

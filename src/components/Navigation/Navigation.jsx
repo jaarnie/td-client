@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -28,7 +28,6 @@ import {
 import clsx from 'clsx'
 
 import Popover from '../Popover/Popover'
-import { Store } from '../../Store'
 
 const drawerWidth = 240
 
@@ -102,7 +101,7 @@ export default function Navigation() {
   const state = useSelector(state => state)
   const classes = useStyles()
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)

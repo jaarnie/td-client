@@ -1,4 +1,5 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { CssBaseline, Container } from '@material-ui/core'
 
@@ -12,24 +13,27 @@ import Login from './components/Login/Login'
 import EntryEditor from './components/EntryEditor/EntryEditor'
 import Entries from "./components/Entries/Entries"
 
-import { Store } from './Store'
-import { server } from './api/api'
-import { setUserDetailsToState } from './utils/index'
+// import { server } from './api/api'
+// import { setUserDetailsToState } from './utils/index'
+import { setUserDetailsToState } from './redux/actions/userActions'
 import Profile from './components/Profile/Profile'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
 function App() {
-  const { state, dispatch } = useContext(Store)
+  const state = useSelector(state => state)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    async function fetchSession() {
+    function fetchSession() {
       if (localStorage.auth_token) {
-        try {
-          const response = await server.get(`/profile`)
-          if (response.status === 200) {
-            setUserDetailsToState(response, dispatch)
-          }
-        } catch {}
+        debugger
+        // try {
+        //   const response = await server.get(`/profile`)
+        //   if (response.status === 200) {
+            dispatch(setUserDetailsToState())
+            // setUserDetailsToState(response, dispatch)
+        //   }
+        // } catch {}
       }
     }
     fetchSession()
