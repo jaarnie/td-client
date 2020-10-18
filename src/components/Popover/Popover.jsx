@@ -8,7 +8,7 @@ import Login from '../Login/Login'
 import Logout from '../Logout/Logout'
 
 export default function NavigationPopover() {
-  const state = useSelector((state) => state)
+  const state = useSelector((state) => state.user)
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {

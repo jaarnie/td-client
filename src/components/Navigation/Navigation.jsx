@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Navigation() {
-  const state = useSelector(state => state)
+  const user = useSelector(state => state.user.userObj)
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = useState(false)
@@ -144,7 +144,7 @@ export default function Navigation() {
   }
 
   const linkedUsersText =
-    state.user && state.user.type === 'Therapist'
+    user && user.type === 'Therapist'
       ? 'Your client(s)'
       : 'Your therapist(s)'
 
@@ -174,7 +174,7 @@ export default function Navigation() {
             </Typography>
           </div>
           <Typography variant='h6' noWrap>
-            {state.user && 'Welcome ' + state.user.first_name}
+            {user && 'Welcome ' + user.first_name}
           </Typography>
           <Popover />
         </Toolbar>

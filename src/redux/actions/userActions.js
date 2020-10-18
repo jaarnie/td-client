@@ -1,10 +1,13 @@
 import { server } from '../../api/api'
+import { getAccessToken } from '../../utils/session'
 
 import { SET_USER, SET_ENTRIES, SET_LINKED_USERS } from '../types'
 
 export const setUserDetailsToState = () => {
   return async (dispatch) => {
-    const response = await server.get('/profile')
+    const response = await server.get('/profile', {
+      headers: { 'Authorization': 'Bearer ' + getAccessToken() },
+    })
     try {
       if (response.status === 200) {
         dispatch({

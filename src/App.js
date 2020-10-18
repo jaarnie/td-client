@@ -11,7 +11,7 @@ import Entry from './components/Entry/Entry'
 import SignUp from './components/SignUp/SignUp'
 import Login from './components/Login/Login'
 import EntryEditor from './components/EntryEditor/EntryEditor'
-import Entries from "./components/Entries/Entries"
+import Entries from './components/Entries/Entries'
 
 // import { server } from './api/api'
 // import { setUserDetailsToState } from './utils/index'
@@ -20,36 +20,30 @@ import Profile from './components/Profile/Profile'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
 function App() {
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    function fetchSession() {
-      if (localStorage.auth_token) {
-        debugger
-        // try {
-        //   const response = await server.get(`/profile`)
-        //   if (response.status === 200) {
-            dispatch(setUserDetailsToState())
-            // setUserDetailsToState(response, dispatch)
-        //   }
-        // } catch {}
-      }
+  const fetchSession = () => {
+    if (localStorage.auth_token) {
+      dispatch(setUserDetailsToState())
     }
+  }
+
+  useEffect(() => {
     fetchSession()
-  }, [dispatch])
+  }, [])
 
   console.log(state)
   return (
-    <div className='App'>
+    <div className="App">
       <CssBaseline />
-      <Container maxWidth='md'>
+      <Container maxWidth="md">
         <Switch>
-          <Route exact path='/' component={Landing} />
-          <Route exact path='/therapist' component={Therapist} />
-          <Route path='/home' component={Home} />
-          <Route path='/sign-up' component={SignUp} />
-          <Route path='/login' component={Login} />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/therapist" component={Therapist} />
+          <Route path="/home" component={Home} />
+          <Route path="/sign-up" component={SignUp} />
+          <Route path="/login" component={Login} />
 
           <PrivateRoute path="/entry/:id" component={Entry} />
           <PrivateRoute path="/entries" component={Entries} />
