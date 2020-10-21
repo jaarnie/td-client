@@ -18,9 +18,11 @@ import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 import { useHistory } from 'react-router-dom'
 
-import { setAccessToken, getAccessToken } from '../../utils/session'
-import { setUserDetailsToState } from '../../redux/actions/userActions'
-import { authApi, server } from '../../api/api'
+// import { setAccessToken, getAccessToken } from '../../utils/session'
+// import { setUserDetailsToState } from '../../redux/actions/userActions'
+// import { authApi, server } from '../../api/api'
+
+import { loginUser } from '../../redux/actions/userActions'
 
 function Copyright() {
   return (
@@ -58,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function Login({ handleClose }) {
+export default function Login(props, { handleClose }) {
   const state = useSelector((state) => state.state)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -70,35 +72,48 @@ export default function Login({ handleClose }) {
     password: '',
   })
 
+  const { username, password } = values
+
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  const handleClick = async (event) => {
+  // const handleClick = async (event) => {
+  //   event.preventDefault()
+  //   try {
+  //     const response = await authApi.post('/login', {
+  //       email: values.username,
+  //       password: values.password,
+  //     })
+  //     if (response.status === 200) {
+  //       setAccessToken(response)
+  //       if (localStorage.auth_token) {
+  //         dispatch(setUserDetailsToState())
+
+  //         enqueueSnackbar(`Welcome, ${state.user.userObj.first_name}`, {
+  //           variant: 'success',
+  //         })
+
+  //         handleClose()
+  //         // history.push('/home')
+  //       }
+  //     }
+  //   } catch (error) {
+  //     enqueueSnackbar(`${error.message || error.response.data.message}`, {
+  //       variant: 'error',
+  //     })
+  //   }
+  // }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    try {
-      const response = await authApi.post('/login', {
-        email: values.username,
-        password: values.password,
-      })
-      if (response.status === 200) {
-        setAccessToken(response)
-        if (localStorage.auth_token) {
-          dispatch(setUserDetailsToState())
 
-          enqueueSnackbar(`Welcome, ${state.user.userObj.first_name}`, {
-            variant: 'success',
-          })
-
-          handleClose()
-          // history.push('/home')
-        }
-      }
-    } catch (error) {
-      enqueueSnackbar(`${error.message || error.response.data.message}`, {
-        variant: 'error',
-      })
+    const userData = {
+      email: username,
+      password,
     }
+
+    dispatch(loginUser(userData, props.history))
   }
 
   const filledForm = () => {
@@ -115,7 +130,7 @@ export default function Login({ handleClose }) {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -151,9 +166,9 @@ export default function Login({ handleClose }) {
             color="primary"
             className={classes.submit}
             disabled={filledForm()}
-            onClick={handleClick}
+            // onClick={handleClick}
           >
-            Sign In
+            Log In
           </Button>
           <Grid container justify="center">
             <Grid item xs>

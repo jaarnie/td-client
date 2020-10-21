@@ -15,7 +15,7 @@ import Entries from './components/Entries/Entries'
 
 // import { server } from './api/api'
 // import { setUserDetailsToState } from './utils/index'
-import { setUserDetailsToState } from './redux/actions/userActions'
+import { getUserData } from './redux/actions/userActions'
 import Profile from './components/Profile/Profile'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
@@ -25,7 +25,7 @@ function App() {
 
   const fetchSession = () => {
     if (localStorage.auth_token) {
-      dispatch(setUserDetailsToState())
+      dispatch(getUserData())
     }
   }
 

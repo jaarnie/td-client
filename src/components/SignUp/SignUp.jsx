@@ -18,7 +18,7 @@ import { useSnackbar } from 'notistack'
 import Axios from 'axios'
 import { useHistory } from 'react-router-dom'
 
-import { serverRoot, serverHeaders } from '../../config/index'
+// import { serverRoot, serverHeaders } from '../../config/index'
 import { Store } from '../../Store'
 import PasswordStrength from '../PasswordStrength/PasswordStrength'
 // import { MAIN_COLOUR } from "../../constants"
@@ -70,10 +70,10 @@ export default function Login({ handleClose }) {
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
 
-  const axiosServer = Axios.create({
-    baseURL: serverRoot,
-    headers: serverHeaders,
-  })
+  // const axiosServer = Axios.create({
+  //   baseURL: serverRoot,
+  //   headers: serverHeaders,
+  // })
 
   const [values, setValues] = useState({
     firstName: '',
@@ -92,35 +92,37 @@ export default function Login({ handleClose }) {
     setChecked(event.target.checked)
   }
 
-  const handleClick = async (event) => {
-    event.preventDefault()
-    if (checked) {
-      console.log('therapist')
-      try {
-        const response = await axiosServer.post('/therapists', {
-          first_name: values.firstName,
-          last_name: values.lastName,
-          username: values.username,
-          password_digest: values.password,
-          is_therapist: checked,
-        })
-        if (response.status === 201) {
-          enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
-            variant: 'success',
-          })
-          dispatch({
-            type: 'SET_THERAPIST',
-            payload: response.data,
-          })
-          return history.push('/therapist')
-        }
-      } catch (err) {
-        enqueueSnackbar(`Error`, {
-          variant: 'error',
-        })
-      }
-    }
-  }
+  // const handleClick = async (event) => {
+  //   event.preventDefault()
+  //   if (checked) {
+  //     console.log('therapist')
+  //     try {
+  //       const response = await axiosServer.post('/therapists', {
+  //         first_name: values.firstName,
+  //         last_name: values.lastName,
+  //         username: values.username,
+  //         password_digest: values.password,
+  //         is_therapist: checked,
+  //       })
+  //       if (response.status === 201) {
+  //         enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
+  //           variant: 'success',
+  //         })
+  //         dispatch({
+  //           type: 'SET_THERAPIST',
+  //           payload: response.data,
+  //         })
+  //         return history.push('/therapist')
+  //       }
+  //     } catch (err) {
+  //       enqueueSnackbar(`Error`, {
+  //         variant: 'error',
+  //       })
+  //     }
+  //   }
+  // }
+
+  const handleClick = () => {}
 
   const matchError = () => {
     return values.password === values.confirmPassword ? false : true

@@ -1,14 +1,14 @@
 import { SET_USER, SET_LINKED_USERS } from '../types'
 
 const initialState = {
-  userObj: null,
+  credentials: null,
   linkedUsers: [],
 }
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
-      return { ...state, userObj: action.payload }
+      return { ...state, credentials: action.payload }
 
     case SET_LINKED_USERS:
       return { ...state, linkedUsers: action.payload }
