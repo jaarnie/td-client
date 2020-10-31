@@ -34,7 +34,7 @@ const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    marginBottom: '10vh',
+    marginBottom: '15vh'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Navigation() {
-  const user = useSelector(state => state.user.userObj)
+  const user = useSelector(state => state.user.credentials)
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = useState(false)

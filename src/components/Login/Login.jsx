@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function Login(props, { handleClose }) {
+export default function Login({ handleClose }) {
   const state = useSelector((state) => state.state)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -108,12 +108,16 @@ export default function Login(props, { handleClose }) {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
+
     const userData = {
       email: username,
       password,
     }
 
-    dispatch(loginUser(userData, props.history))
+    dispatch(loginUser(userData, handleClose))
+    
+    return history.push('/')
+
   }
 
   const filledForm = () => {

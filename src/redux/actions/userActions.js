@@ -11,7 +11,7 @@ import {
   SET_ERRORS,
 } from '../types'
 
-export const loginUser = (userData, history) => {
+export const loginUser = (userData, handleClose) => {
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING_UI })
@@ -21,7 +21,7 @@ export const loginUser = (userData, history) => {
         setAccessToken(response)
         dispatch(getUserData())
         dispatch({ type: CLEAR_ERRORS })
-        return history.push('/')
+        handleClose()
       }
     } catch (error) {
       console.log(error)
@@ -68,6 +68,5 @@ export const getUserData = () => {
 }
 
 export const setAuthHeader = (auth_token) => {
-  const authToken = `Bearer ${auth_token}`
-  api.defaults.headers.common['Authorization'] = authToken
+  api.defaults.headers.common['Authorization'] = `Bearer ${auth_token}`
 }
