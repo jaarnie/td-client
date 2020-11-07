@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   Avatar,
   Button,
@@ -15,12 +15,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { Link } from 'react-router-dom'
-import { useSnackbar } from 'notistack'
 import { useHistory } from 'react-router-dom'
-
-// import { setAccessToken, getAccessToken } from '../../utils/session'
-// import { setUserDetailsToState } from '../../redux/actions/userActions'
-// import { authApi, server } from '../../api/api'
 
 import { loginUser } from '../../redux/actions/userActions'
 
@@ -61,10 +56,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Login({ handleClose }) {
-  const state = useSelector((state) => state.state)
   const dispatch = useDispatch()
   const history = useHistory()
-  const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
 
   const [values, setValues] = useState({
@@ -78,36 +71,8 @@ export default function Login({ handleClose }) {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  // const handleClick = async (event) => {
-  //   event.preventDefault()
-  //   try {
-  //     const response = await authApi.post('/login', {
-  //       email: values.username,
-  //       password: values.password,
-  //     })
-  //     if (response.status === 200) {
-  //       setAccessToken(response)
-  //       if (localStorage.auth_token) {
-  //         dispatch(setUserDetailsToState())
-
-  //         enqueueSnackbar(`Welcome, ${state.user.userObj.first_name}`, {
-  //           variant: 'success',
-  //         })
-
-  //         handleClose()
-  //         // history.push('/home')
-  //       }
-  //     }
-  //   } catch (error) {
-  //     enqueueSnackbar(`${error.message || error.response.data.message}`, {
-  //       variant: 'error',
-  //     })
-  //   }
-  // }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
-
 
     const userData = {
       email: username,
@@ -115,9 +80,8 @@ export default function Login({ handleClose }) {
     }
 
     dispatch(loginUser(userData, handleClose))
-    
-    return history.push('/')
 
+    return history.push('/')
   }
 
   const filledForm = () => {
