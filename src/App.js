@@ -15,7 +15,7 @@ import Entries from './components/Entries/Entries'
 
 // import { server } from './api/api'
 // import { setUserDetailsToState } from './utils/index'
-import { getUserData } from './redux/actions/userActions'
+import { getUserData, setAuthHeader } from './redux/actions/userActions'
 import Profile from './components/Profile/Profile'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
@@ -24,7 +24,9 @@ function App() {
   const dispatch = useDispatch()
 
   const fetchSession = () => {
-    if (localStorage.auth_token) {
+    const token = localStorage.auth_token
+    if (token) {
+      setAuthHeader(token)
       dispatch(getUserData())
     }
   }
