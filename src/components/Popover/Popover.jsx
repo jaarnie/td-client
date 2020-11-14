@@ -8,7 +8,7 @@ import Login from '../Login/Login'
 import Logout from '../Logout/Logout'
 
 export default function NavigationPopover() {
-  const state = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user)
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {
@@ -19,6 +19,7 @@ export default function NavigationPopover() {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
 
   const open = Boolean(anchorEl)
 
@@ -42,7 +43,7 @@ export default function NavigationPopover() {
           horizontal: 'center',
         }}
       >
-        {state.user ? (
+        {user.credentials ? (
           <Logout handleClose={handleClose} />
         ) : (
           <Login handleClose={handleClose} />

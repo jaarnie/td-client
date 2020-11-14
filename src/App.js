@@ -39,7 +39,7 @@ function App() {
   return (
     <div className="App">
       <CssBaseline />
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route exact path="/therapist" component={Therapist} />
